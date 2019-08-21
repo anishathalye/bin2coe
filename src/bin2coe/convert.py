@@ -1,8 +1,3 @@
-def bits(data):
-    for byte in data:
-        for i in range(8):
-            yield bool(byte & (1 << (7 - i)))
-
 def chunks(it, n):
     res = []
     for elem in it:
@@ -13,12 +8,13 @@ def chunks(it, n):
     if res:
         yield res
 
-def bitsn(data, n):
-    for word in chunks(bits(data), n):
-        acc = 0
-        for i, bit in enumerate(reversed(word)):
-            acc += bit << i
-        yield acc
+def word_to_int(word, little_endian):
+    if not little_endian:
+        word = reversed(word)
+    value = 0
+    for i, byte in enumerate(word):
+        value += byte << (8*i)
+    return value
 
 def format_int(num, base, pad_width=0):
     chars = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -33,15 +29,15 @@ def format_int(num, base, pad_width=0):
         res.append('0')
     return ''.join(res[::-1])
 
-def convert(output, data, width, depth, fill, radix):
+def convert(output, data, width, depth, fill, radix, little_endian=True):
     pad_width = len(format_int(2**width-1, radix))
     output.write('memory_initialization_radix = {};\n'.format(radix).encode('utf8'))
     output.write(b'memory_initialization_vector =\n')
     rows = 0
-    for word in bitsn(data, width):
+    for word in chunks(data, width // 8):
         if rows > 0:
             output.write(b',\n')
-        output.write(format_int(word, radix, pad_width).encode('utf8'))
+        output.write(format_int(word_to_int(word, little_endian), radix, pad_width).encode('utf8'))
         rows += 1
     if rows < depth:
         assert fill is not None
