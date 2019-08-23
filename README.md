@@ -6,7 +6,7 @@ for initializing Xilinx FPGA block RAM.
 
 ---
 
-[![Build Status](https://travis-ci.org/anishathalye/bin2coe.svg?branch=master)](https://travis-ci.org/anishathalye/bin2coe)
+[![Build Status](https://travis-ci.com/anishathalye/bin2coe.svg?branch=master)](https://travis-ci.com/anishathalye/bin2coe)
 
 Usage
 -----
