@@ -12,11 +12,14 @@ def main():
     parser.add_argument('-f', '--fill', type=str, help='value to fill in empty words')
     parser.add_argument('-r', '--radix', type=int, default=16, help='fill radix and output radix')
     parser.add_argument('--big-endian', action='store_true', default=False, help='big endian mode')
+    parser.add_argument('--mem', action='store_true', default=False, help='output mem file')
     options = parser.parse_args()
 
     # check radix
     if not (2 <= options.radix <= 36):
         error('unsupported radix, must be between 2 and 36')
+    if options.mem and not options.radix in [2, 16]:
+        error('mem requires radix 2 or 16')
 
     # check width
     if not 8 <= options.width:
@@ -61,7 +64,16 @@ def main():
                 error('memory size too small: {} x {} bit < {}'.format(depth, options.width, bits))
 
     with open(options.output, 'wb') as f:
-        convert(f, data, options.width, depth, fill, options.radix, little_endian=(not options.big_endian))
+        convert(
+            f,
+            data,
+            options.width,
+            depth,
+            fill,
+            options.radix,
+            little_endian=(not options.big_endian),
+            mem=(options.mem)
+        )
 
 
 def error(msg):
