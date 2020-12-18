@@ -1,4 +1,4 @@
-# bin2coe [![Build Status](https://travis-ci.com/anishathalye/bin2coe.svg?branch=master)](https://travis-ci.com/anishathalye/bin2coe)
+# bin2coe [![Build Status](https://github.com/anishathalye/bin2coe/workflows/CI/badge.svg)](https://github.com/anishathalye/bin2coe/actions?query=workflow%3ACI)
 
 bin2coe is, as its name suggests, a tool to convert binary files to [COE] files
 for initializing Xilinx FPGA block RAM.
