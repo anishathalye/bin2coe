@@ -28,15 +28,6 @@ pip install bin2coe
 After running this command, the `bin2coe` binary should be available on your
 `$PATH`.
 
-Packaging
----------
-
-1. Update version information.
-
-2. Build the package using ``python setup.py sdist bdist_wheel``.
-
-3. Sign and upload the package using ``twine upload -s dist/*``.
-
 License
 -------
 
