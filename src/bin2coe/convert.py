@@ -19,7 +19,7 @@ def word_to_int(word, little_endian):
 def format_int(num, base, pad_width=0):
     chars = "0123456789abcdefghijklmnopqrstuvwxyz"
     if num < 0:
-        return '-' + int2base(-num, base, chars)
+        raise ValueError('negative numbers not supported')
     res = []
     res.append(chars[num % base])
     while num >= base:
