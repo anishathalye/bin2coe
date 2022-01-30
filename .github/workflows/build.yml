@@ -5,12 +5,12 @@ on:
   schedule:
     - cron: '0 8 * * 6'
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python: [3.5, 3.6, 3.7, 3.8, 3.9, pypy3]
-    name: Python ${{ matrix.python }}
+    name: "Test: Python ${{ matrix.python }}"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -21,3 +21,9 @@ jobs:
           pip install pytest
       - run: pip install .
       - run: pytest -v
+  fmt:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: psf/black@stable
