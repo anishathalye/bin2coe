@@ -1,4 +1,9 @@
-def chunks(it, n):
+from typing import Iterable, TypeVar, BinaryIO, List, Iterator, Optional
+
+T = TypeVar("T")
+
+
+def chunks(it: Iterable[T], n: int) -> Iterator[List[T]]:
     res = []
     for elem in it:
         res.append(elem)
@@ -9,16 +14,16 @@ def chunks(it, n):
         yield res
 
 
-def word_to_int(word, little_endian):
+def word_to_int(word: List[int], little_endian: bool) -> int:
     if not little_endian:
-        word = reversed(word)
+        word = list(reversed(word))
     value = 0
     for i, byte in enumerate(word):
         value += byte << (8 * i)
     return value
 
 
-def format_int(num, base, pad_width=0):
+def format_int(num: int, base: int, pad_width: int = 0) -> str:
     chars = "0123456789abcdefghijklmnopqrstuvwxyz"
     if num < 0:
         raise ValueError("negative numbers not supported")
@@ -32,7 +37,16 @@ def format_int(num, base, pad_width=0):
     return "".join(res[::-1])
 
 
-def convert(output, data, width, depth, fill, radix, little_endian=True, mem=False):
+def convert(
+    output: BinaryIO,
+    data: bytes,
+    width: int,
+    depth: int,
+    fill: Optional[int],
+    radix: int,
+    little_endian: bool = True,
+    mem: bool = False,
+) -> None:
     pad_width = len(format_int(2**width - 1, radix))
     if not mem:
         output.write("memory_initialization_radix = {};\n".format(radix).encode("utf8"))
@@ -47,12 +61,12 @@ def convert(output, data, width, depth, fill, radix, little_endian=True, mem=Fal
         rows += 1
     if rows < depth:
         assert fill is not None
-    while rows < depth:
-        if not mem:
-            output.write(b",")
-        output.write(b"\n")
-        output.write(format_int(fill, radix, pad_width).encode("utf8"))
-        rows += 1
+        while rows < depth:
+            if not mem:
+                output.write(b",")
+            output.write(b"\n")
+            output.write(format_int(fill, radix, pad_width).encode("utf8"))
+            rows += 1
     if not mem:
         output.write(b";")
     output.write(b"\n")

@@ -3,7 +3,10 @@ from argparse import ArgumentParser
 import sys
 
 
-def main():
+from typing import NoReturn, BinaryIO
+
+
+def main() -> None:
     parser = ArgumentParser()
     parser.add_argument("-i", "--input", type=str, required=True, help="input filename")
     parser.add_argument("-o", "--output", type=str, required=True, help="output filename")
@@ -80,6 +83,6 @@ def main():
         )
 
 
-def error(msg):
+def error(msg: str) -> NoReturn:
     print("error: {}".format(msg), file=sys.stderr)
     exit(1)
