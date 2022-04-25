@@ -30,7 +30,7 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install mypy
-      - run: mypy src
+      - run: mypy --strict src
   fmt:
     name: Format
     runs-on: ubuntu-latest
