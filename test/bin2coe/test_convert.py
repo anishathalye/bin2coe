@@ -4,11 +4,11 @@ import io
 import pytest
 
 
-def test_chunks():
+def test_chunks() -> None:
     assert [["a", "b", "c"], ["d", "e", "f"], ["g", "h"]] == list(chunks("abcdefgh", 3))
 
 
-def test_convert_nofill_big_endian():
+def test_convert_nofill_big_endian() -> None:
     f = io.BytesIO()
     convert(f, bytes([1, 2, 3, 47, 1, 3, 3, 7]), 32, 2, None, 16, little_endian=False)
     f.seek(0)
@@ -21,7 +21,7 @@ memory_initialization_vector =
     assert expected == f.read()
 
 
-def test_convert_nofill():
+def test_convert_nofill() -> None:
     f = io.BytesIO()
     convert(f, bytes([1, 2, 3, 47, 1, 3, 3, 7]), 32, 2, None, 16)
     f.seek(0)
@@ -34,7 +34,7 @@ memory_initialization_vector =
     assert expected == f.read()
 
 
-def test_convert_fill():
+def test_convert_fill() -> None:
     f = io.BytesIO()
     convert(f, bytes([1, 7]), 16, 3, 12, 4)
     f.seek(0)
@@ -48,7 +48,7 @@ memory_initialization_vector =
     assert expected == f.read()
 
 
-def test_convert_memh():
+def test_convert_memh() -> None:
     f = io.BytesIO()
     convert(f, bytes([1, 2, 3, 47, 1, 3, 3, 7]), 32, 3, 0, 16, mem=True)
     f.seek(0)
@@ -60,7 +60,7 @@ def test_convert_memh():
     assert expected == f.read()
 
 
-def test_convert_memb():
+def test_convert_memb() -> None:
     f = io.BytesIO()
     convert(f, bytes([1, 2, 3, 47, 1, 3, 3, 7]), 32, 3, 0, 2, mem=True)
     f.seek(0)
