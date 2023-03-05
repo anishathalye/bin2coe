@@ -31,7 +31,7 @@ After running this command, the `bin2coe` binary should be available on your
 License
 -------
 
-Copyright (c) 2019 Anish Athalye. Released under the MIT License. See
+Copyright (c) Anish Athalye. Released under the MIT License. See
 [LICENSE.md][license] for details.
 
 [COE]: https://www.xilinx.com/support/documentation/sw_manuals/xilinx11/cgn_r_coe_file_syntax.htm
