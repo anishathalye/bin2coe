@@ -34,6 +34,6 @@ License
 Copyright (c) Anish Athalye. Released under the MIT License. See
 [LICENSE.md][license] for details.
 
-[COE]: https://www.xilinx.com/support/documentation/sw_manuals/xilinx11/cgn_r_coe_file_syntax.htm
+[COE]: https://docs.xilinx.com/r/en-US/ug896-vivado-ip/COE-File-Syntax
 [PyPI]: https://pypi.org/project/bin2coe/
 [license]: LICENSE.md
