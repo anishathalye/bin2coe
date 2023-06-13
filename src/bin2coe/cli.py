@@ -50,9 +50,14 @@ def main() -> None:
     # infer / validate depth
     depth = options.depth
     if depth is None:
-        # infer depth if necessary
+        # infer depth if necessary, adding zero words if necessary
         if bits % options.width != 0:
-            error("cannot infer depth, {} total bits, width {}".format(bits, options.width))
+            extra = options.width - bits % options.width
+            if extra % 8 != 0:
+                error("cannot infer depth, {} total bits, width {}".format(bits, options.width))
+            extra_words = extra // 8
+            data = data + bytes(extra_words)
+            bits = 8 * len(data)
         depth = bits // options.width
     else:
         # validate depth
