@@ -49,6 +49,11 @@ name."^py3\\.7$".set-dependencies = [
   "pytest-xdist[psutil]",
 ]
 
+[tool.coverage.run]
+omit = [
+  "*/tests/*",
+]
+
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
