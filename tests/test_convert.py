@@ -1,7 +1,6 @@
-from bin2coe.convert import *
 import io
 
-import pytest
+from bin2coe.convert import chunks, convert
 
 
 def test_chunks() -> None:

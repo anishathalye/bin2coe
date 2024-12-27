@@ -1,4 +1,4 @@
-from typing import Iterable, TypeVar, BinaryIO, List, Iterator, Optional
+from typing import BinaryIO, Iterable, Iterator, List, Optional, TypeVar
 
 T = TypeVar("T")
 
@@ -14,7 +14,7 @@ def chunks(it: Iterable[T], n: int) -> Iterator[List[T]]:
         yield res
 
 
-def word_to_int(word: List[int], little_endian: bool) -> int:
+def word_to_int(word: List[int], *, little_endian: bool) -> int:
     if not little_endian:
         word = list(reversed(word))
     value = 0
@@ -26,7 +26,8 @@ def word_to_int(word: List[int], little_endian: bool) -> int:
 def format_int(num: int, base: int, pad_width: int = 0) -> str:
     chars = "0123456789abcdefghijklmnopqrstuvwxyz"
     if num < 0:
-        raise ValueError("negative numbers not supported")
+        msg = "negative numbers not supported"
+        raise ValueError(msg)
     res = []
     res.append(chars[num % base])
     while num >= base:
@@ -44,12 +45,13 @@ def convert(
     depth: int,
     fill: Optional[int],
     radix: int,
+    *,
     little_endian: bool = True,
     mem: bool = False,
 ) -> None:
     pad_width = len(format_int(2**width - 1, radix))
     if not mem:
-        output.write("memory_initialization_radix = {};\n".format(radix).encode("utf8"))
+        output.write(f"memory_initialization_radix = {radix};\n".encode())
         output.write(b"memory_initialization_vector =\n")
     rows = 0
     for word in chunks(data, width // 8):
@@ -57,10 +59,12 @@ def convert(
             if not mem:
                 output.write(b",")
             output.write(b"\n")
-        output.write(format_int(word_to_int(word, little_endian), radix, pad_width).encode("utf8"))
+        output.write(format_int(word_to_int(word, little_endian=little_endian), radix, pad_width).encode("utf8"))
         rows += 1
     if rows < depth:
-        assert fill is not None
+        if fill is None:
+            msg = "fill must not be 'None' if memory is not filled by values"
+            raise ValueError(msg)
         while rows < depth:
             if not mem:
                 output.write(b",")

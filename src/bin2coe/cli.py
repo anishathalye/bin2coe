@@ -1,9 +1,8 @@
-from .convert import convert
-from argparse import ArgumentParser
 import sys
+from argparse import ArgumentParser
+from typing import NoReturn
 
-
-from typing import NoReturn, BinaryIO
+from bin2coe.convert import convert
 
 
 def main() -> None:
@@ -19,15 +18,15 @@ def main() -> None:
     options = parser.parse_args()
 
     # check radix
-    if not (2 <= options.radix <= 36):
+    if not (2 <= options.radix <= 36):  # noqa: PLR2004
         error("unsupported radix, must be between 2 and 36")
-    if options.mem and not options.radix in [2, 16]:
+    if options.mem and options.radix not in [2, 16]:
         error("mem requires radix 2 or 16")
 
     # check width
-    if not 8 <= options.width:
+    if not options.width >= 8:  # noqa: PLR2004
         error("width must be >= 8")
-    if not options.width & (options.width - 1) == 0:
+    if options.width & options.width - 1 != 0:
         error("width must be a power of 2")
 
     # if fill is specified, then depth must be specified too; otherwise, depth
@@ -41,7 +40,7 @@ def main() -> None:
         try:
             fill = int(options.fill, options.radix)
         except ValueError:
-            error("invalid fill ({}) for radix ({})".format(options.fill, options.radix))
+            error(f"invalid fill ({options.fill}) for radix ({options.radix})")
 
     with open(options.input, "rb") as f:
         data = f.read()
@@ -54,26 +53,20 @@ def main() -> None:
         if bits % options.width != 0:
             extra = options.width - bits % options.width
             if extra % 8 != 0:
-                error("cannot infer depth, {} total bits, width {}".format(bits, options.width))
+                error(f"cannot infer depth, {bits} total bits, width {options.width}")
             extra_words = extra // 8
             data = data + bytes(extra_words)
             bits = 8 * len(data)
         depth = bits // options.width
+    elif fill is None:
+        if bits != options.width * depth:
+            error(f"memory size / file size mismatch: {depth} x {options.width} bit != {bits}")
     else:
-        # validate depth
-        if fill is None:
-            if bits != options.width * depth:
-                error(
-                    "memory size / file size mismatch: {} x {} bit != {}".format(
-                        depth, options.width, bits
-                    )
-                )
-        else:
-            # make sure it fills an integer number of words
-            if bits % options.width != 0:
-                error("data must fill an integer number of words")
-            if bits > options.width * depth:
-                error("memory size too small: {} x {} bit < {}".format(depth, options.width, bits))
+        # make sure it fills an integer number of words
+        if bits % options.width != 0:
+            error("data must fill an integer number of words")
+        if bits > options.width * depth:
+            error(f"memory size too small: {depth} x {options.width} bit < {bits}")
 
     with open(options.output, "wb") as f:
         convert(
@@ -89,5 +82,5 @@ def main() -> None:
 
 
 def error(msg: str) -> NoReturn:
-    print("error: {}".format(msg), file=sys.stderr)
-    exit(1)
+    print(f"error: {msg}", file=sys.stderr)  # noqa: T201
+    sys.exit(1)

@@ -6,36 +6,40 @@ on:
     - cron: '0 8 * * 6'
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "pypy-3.9"]
+        python: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "pypy-3.9"]
     name: "Test: Python ${{ matrix.python }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-      - run: pip install .
-      - run: pytest -v
+      - uses: pypa/hatch@install
+      - run: hatch test -v --cover --include python=$(echo ${{ matrix.python }} | tr -d '-')
+      - run: hatch run coverage:xml
+      - uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
   typecheck:
     name: Type check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - run: |
-          python -m pip install --upgrade pip
-          pip install pytest mypy
-      - run: mypy --strict src test
+          python-version: "3.13"
+      - uses: pypa/hatch@install
+      - run: hatch run types:check
   fmt:
-    name: Format
-    runs-on: ubuntu-latest
+    name: Format and lint
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: psf/black@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: pypa/hatch@install
+      - run: hatch fmt --check
