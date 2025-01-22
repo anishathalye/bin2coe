@@ -1,4 +1,4 @@
-# bin2coe [![Build Status](https://github.com/anishathalye/bin2coe/workflows/CI/badge.svg)](https://github.com/anishathalye/bin2coe/actions?query=workflow%3ACI) [![Coverage](https://codecov.io/gh/anishathalye/bin2coe/branch/master/graph/badge.svg)](https://app.codecov.io/gh/anishathalye/bin2coe) [![PyPI](https://img.shields.io/pypi/v/bin2coe.svg)](https://pypi.org/pypi/bin2coe/) [![Python 3.7+](https://img.shields.io/badge/python-3.7%2B-blue)](https://pypi.org/pypi/bin2coe/)
+# bin2coe [![Build Status](https://github.com/anishathalye/bin2coe/workflows/CI/badge.svg)](https://github.com/anishathalye/bin2coe/actions?query=workflow%3ACI) [![Coverage](https://codecov.io/gh/anishathalye/bin2coe/branch/master/graph/badge.svg)](https://app.codecov.io/gh/anishathalye/bin2coe) [![PyPI](https://img.shields.io/pypi/v/bin2coe.svg)](https://pypi.org/pypi/bin2coe/) [![PyPI - Python version](https://img.shields.io/pypi/pyversions/bin2coe.svg)](https://pypi.org/pypi/bin2coe/)
 
 
 bin2coe is, as its name suggests, a tool to convert binary files to [COE] files
