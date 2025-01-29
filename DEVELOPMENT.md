@@ -16,7 +16,7 @@ You can run the tests on your local machine with:
 hatch test
 ```
 
-The [`test` command][hatch-test] supports options such as `-c` for measuring test coverage, `-a` for testing with a matrix of Python versions, and appending an argument like `tests/test_shell.py::test_shell_can_override_defaults` for running a single test.
+The [`test` command][hatch-test] supports options such as `-c` for measuring test coverage, `-a` for testing with a matrix of Python versions, and appending an argument like `hatch test tests/test_convert.py::test_convert_nofill` for running a single test.
 
 [hatch-test]: https://hatch.pypa.io/latest/tutorials/testing/overview/
 
