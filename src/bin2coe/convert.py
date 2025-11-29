@@ -16,7 +16,7 @@ def chunks(it: Iterable[T], n: int) -> Iterator[List[T]]:
 
 def word_to_int(word: List[int], *, little_endian: bool) -> int:
     if not little_endian:
-        word = list(reversed(word))
+        word = list(reversed(word))  # noqa: FURB187
     value = 0
     for i, byte in enumerate(word):
         value += byte << (8 * i)

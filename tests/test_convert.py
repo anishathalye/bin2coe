@@ -4,7 +4,7 @@ from bin2coe.convert import chunks, convert
 
 
 def test_chunks() -> None:
-    assert [["a", "b", "c"], ["d", "e", "f"], ["g", "h"]] == list(chunks("abcdefgh", 3))
+    assert list(chunks("abcdefgh", 3)) == [["a", "b", "c"], ["d", "e", "f"], ["g", "h"]]
 
 
 def test_convert_nofill_big_endian() -> None:
