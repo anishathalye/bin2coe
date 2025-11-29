@@ -68,8 +68,9 @@ check = "mypy --strict --install-types --non-interactive {args:src tests}"
 
 [tool.hatch.envs.coverage]
 detached = true
+installer = "uv"
 dependencies = [
-  "coverage",
+  "coverage[toml]",
 ]
 
 [tool.hatch.envs.coverage.scripts]
