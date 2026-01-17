@@ -60,11 +60,10 @@ omit = [
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
-  "pip",
 ]
 
 [tool.hatch.envs.types.scripts]
-check = "mypy --strict --install-types --non-interactive {args:src tests}"
+check = "mypy {args:src tests}"
 
 [tool.hatch.envs.coverage]
 detached = true
@@ -76,6 +75,9 @@ dependencies = [
 [tool.hatch.envs.coverage.scripts]
 html = "coverage html"
 xml = "coverage xml"
+
+[tool.mypy]
+strict = true
 
 [tool.ruff.lint]
 ignore = [
